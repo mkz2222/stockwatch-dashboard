@@ -10,8 +10,8 @@ Import this repository into Netlify. Leave the build command empty; the included
 `netlify.toml` configures the publish and functions directories. Set these server
 environment variables before deploying:
 
-- `SUPABASE_URL`
-- `SUPABASE_SECRET_KEY`
+- `BASE_L`
+- `BASE_Y`
 - `STOCKWATCH_DEVICE_ID` (defaults to `raspberrypi`)
 
 See [deployment and credential instructions](DEPLOY-DASHBOARD.md) for details.

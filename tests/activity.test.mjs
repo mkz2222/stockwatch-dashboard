@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { activity } from '../netlify/functions/_shared/activity.mjs';
-const env = { get: k => ({SUPABASE_URL:'https://example.supabase.co',SUPABASE_SECRET_KEY:'sb_secret_test',STOCKWATCH_DEVICE_ID:'raspberrypi'}[k]) };
+const env = { get: k => ({BASE_L:'https://example.supabase.co',BASE_Y:'sb_secret_test',STOCKWATCH_DEVICE_ID:'raspberrypi'}[k]) };
 const request = (method='GET') => new Request('https://example.test/api/activity?device_id=other&limit=999', {method});
 test('public projection is fixed, bounded, device-scoped and strips private fields', async () => {
   const urls=[];

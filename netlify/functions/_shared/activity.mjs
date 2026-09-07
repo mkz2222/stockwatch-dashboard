@@ -5,8 +5,8 @@ export async function activity(request, env, fetcher = fetch) {
     'X-Content-Type-Options': 'nosniff',
   }});
   if (request.method !== 'GET') return reply({ error: 'Method not allowed' }, 405);
-  const url = (env.get('SUPABASE_URL') || '').replace(/\/$/, '');
-  const key = env.get('SUPABASE_SECRET_KEY') || '';
+  const url = (env.get('BASE_L') || '').replace(/\/$/, '');
+  const key = env.get('BASE_Y') || '';
   const device = env.get('STOCKWATCH_DEVICE_ID') || 'raspberrypi';
   if (!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(url) || !key.startsWith('sb_secret_') || !/^[A-Za-z0-9_-]{1,64}$/.test(device)) {
     return reply({ error: 'Dashboard connection is not configured yet.' }, 503);

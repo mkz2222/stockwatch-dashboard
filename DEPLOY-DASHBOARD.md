@@ -14,8 +14,8 @@ A public, read-only, mobile-friendly activity dashboard. No login and no rule ed
 
    | Variable | Value |
    | --- | --- |
-   | `SUPABASE_URL` | `https://rcmpuisjnyhbeqccokhh.supabase.co` |
-   | `SUPABASE_SECRET_KEY` | A server-side `sb_secret_...` key, preferably a separate key for this dashboard |
+   | `BASE_L` | `https://rcmpuisjnyhbeqccokhh.supabase.co` |
+   | `BASE_Y` | A server-side `sb_secret_...` key, preferably a separate key for this dashboard |
    | `STOCKWATCH_DEVICE_ID` | `raspberrypi` |
 
    Set production values for a production deployment. A deploy preview needs its
