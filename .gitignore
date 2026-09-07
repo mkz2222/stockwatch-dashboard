@@ -1,11 +1,6 @@
-__pycache__/
-state/
-*.sqlite3*
-*.lock
 .env
-stockwatch.env
-*.ppk
-*.pem
 .env.*
-!*.env.example
+!.env.example
 .netlify/
+node_modules/
+*.log
