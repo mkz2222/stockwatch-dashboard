@@ -19,7 +19,7 @@ const el = (tag, className, text) => {
   if (text !== undefined) node.textContent = text;
   return node;
 };
-const labels = { success: 'Successful', error: 'Check failed', market_closed: 'Market closed', market_clock_error: 'Market clock unavailable', alert_sent: 'Alert sent', already_notified: 'Already notified', outside_range: 'Outside range', cooldown: 'In cooldown' };
+const labels = { no_alert: 'No alert needed', below_30: 'Below 30 · already notified', already_evaluated: 'Daily value unchanged', would_alert: 'Would alert', success: 'Successful', error: 'Check failed', market_closed: 'Market closed', market_clock_error: 'Market clock unavailable', alert_sent: 'Alert sent', already_notified: 'Already notified', outside_range: 'Outside range', cooldown: 'In cooldown' };
 function renderRuns() {
   const openIds = new Set([...$('runs').querySelectorAll('details[open]')].map(n => n.dataset.id));
   $('runs').replaceChildren();
@@ -33,16 +33,20 @@ function renderRuns() {
     const title = el('div'); title.append(el('div', 'run-title', fullTime(run.started_at)));
     const seconds = (date(run.finished_at) - date(run.started_at)) / 1000;
     title.append(el('div', 'run-subtitle', `${run.results.length} checks${Number.isFinite(seconds) && seconds >= 0 ? ` · ${seconds.toFixed(1)}s duration` : ''}`));
+    for (const metric of run.results.filter(v => v.indicator === 'RSI' && Number.isFinite(v.rsi))) title.append(el('div', 'run-subtitle', `${metric.symbol} · Daily RSI(14): ${metric.rsi.toFixed(2)}`));
     const end = el('div', 'run-end'); end.append(el('span', `badge${failed ? ' warn' : ''}`, failed ? 'Has errors' : 'Successful'));
     end.append(el('span', '', relative(run.started_at)), el('span', 'chevron', '⌄'));
     summary.append(icon, title, end); details.append(summary);
     const results = el('ul', 'results');
     for (const result of run.results) {
       const item = el('li'); const row = el('div', 'result-top');
-      row.append(el('strong', '', result.symbol || 'Unknown symbol'), el('span', '', labels[result.status] || result.status || 'Unknown status'));
+      row.append(el('strong', '', (result.symbol || 'Unknown symbol') + (result.indicator === 'RSI' ? ' · Daily RSI(14)' : '')), el('span', '', labels[result.status] || result.status || 'Unknown status'));
       item.append(row);
       if (Number.isFinite(result.price)) item.append(el('p', '', `Price: ${result.price.toLocaleString(undefined, { maximumFractionDigits: 4 })}`));
       if (result.quoted_at) item.append(el('p', '', `Quote: ${fullTime(result.quoted_at)}`));
+      if (Number.isFinite(result.rsi)) item.append(el('p', '', `RSI: ${result.rsi.toFixed(2)} · alert below 30`));
+      if (result.closed_at) item.append(el('p', '', `Daily candle closed: ${fullTime(result.closed_at)}`));
+      if (result.source) item.append(el('p', '', `Source: ${result.source}`));
       if (result.error) item.append(el('p', '', result.error));
       results.append(item);
     }

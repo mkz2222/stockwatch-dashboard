@@ -31,7 +31,8 @@ export async function activity(request, env, fetcher = fetch) {
       runs: runs.map(r => ({ id: r.id, started_at: r.started_at, finished_at: r.finished_at, status: r.status,
         results: (Array.isArray(r.results) ? r.results : []).slice(0, 500).map(v => ({
           symbol: v.symbol, status: v.status, price: v.price, quoted_at: v.quoted_at,
-          error: typeof v.error === 'string' ? 'Price check failed. See the monitor logs for details.' : undefined,
+          indicator: v.indicator, rsi: v.rsi, period: v.period, timeframe: v.timeframe, closed_at: v.closed_at, source: v.source,
+          error: typeof v.error === 'string' ? 'Check failed. See the monitor logs for details.' : undefined,
         })),
       })),
       alerts: alerts.map(a => ({ id: a.local_id, sent_at: new Date(a.sent_epoch * 1000).toISOString(), message: a.message })),
